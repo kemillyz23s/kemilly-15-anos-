@@ -1,1 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convite</title>
 
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#000;
+color:#fff;
+overflow:hidden;
+}
+
+#video{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+#convite{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.88);
+justify-content:center;
+align-items:center;
+flex-direction:column;
+padding:20px;
+text-align:center;
+}
+
+h1{
+font-size:36px;
+margin-bottom:15px;
+}
+
+p{
+font-size:18px;
+margin-bottom:25px;
+}
+
+.botao{
+display:block;
+width:250px;
+padding:15px;
+margin:10px;
+background:#d62828;
+color:white;
+text-decoration:none;
+border-radius:12px;
+font-size:20px;
+transition:.3s;
+}
+
+.botao:hover{
+transform:scale(1.05);
+background:#ff4d4d;
+}
+</style>
+</head>
+
+<body>
+
+<video id="video" autoplay playsinline>
+<source src="video.mp4" type="video/mp4">
+</video>
+
+<div id="convite">
+<h1>🎬 Você foi convidado!</h1>
+
+<p>
+Em breve coloque aqui a mensagem do convite.
+</p>
+
+<a class="botao" href="#">🎁 Sugestão de Presente</a>
+
+<a class="botao" href="#">📍 Localização</a>
+
+<a class="botao" href="#">💬 Confirmar Presença</a>
+
+</div>
+
+<script>
+const video=document.getElementById("video");
+const convite=document.getElementById("convite");
+
+video.onended=()=>{
+video.style.display="none";
+convite.style.display="flex";
+};
+</script>
+
+</body>
+</html>
