@@ -8,115 +8,135 @@
 <style>
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 html,body{
-width:100%;
-height:100%;
-background:#000;
-overflow:hidden;
+  width:100%;
+  height:100%;
+  background:#000;
+  overflow:auto; /* permitir rolagem se necessário */
 }
 
 .page{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
 }
 
 #videoPage{
-display:flex;
-justify-content:center;
-align-items:center;
-background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#000;
 }
 
 #invitePage{
-display:none;
-justify-content:center;
-align-items:center;
-background:#000;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:#000;
+  overflow:auto;
 }
 
+/* Video: mostrar inteiro (horizontal) sem cortar */
 video{
-width:100%;
-height:100%;
-object-fit:cover;
+  max-width:100%;
+  max-height:100vh;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  display:block;
+}
+
+/* Container do convite para fazer os botões "hotspots" relativos à imagem */
+.convite-container{
+  position:relative;
+  width:90vw;
+  max-width:1200px;
+  margin:auto;
 }
 
 #convite{
-width:100%;
-height:100%;
-object-fit:contain;
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
 }
 
 #entrar{
-position:absolute;
-left:50%;
-bottom:40px;
-transform:translateX(-50%);
-padding:16px 36px;
-border:none;
-border-radius:50px;
-background:#d4af37;
-color:#fff;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-display:none;
-box-shadow:0 0 20px rgba(0,0,0,.4);
-transition:.3s;
+  position:absolute;
+  left:50%;
+  bottom:40px;
+  transform:translateX(-50%);
+  padding:16px 36px;
+  border:none;
+  border-radius:50px;
+  background:#d4af37;
+  color:#fff;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  display:none;
+  box-shadow:0 0 20px rgba(0,0,0,.4);
+  transition:.3s;
 }
 
 #entrar:hover{
-transform:translateX(-50%) scale(1.05);
+  transform:translateX(-50%) scale(1.05);
 }
 
 .link{
-position:absolute;
-background:transparent;
-border:none;
-cursor:pointer;
+  position:absolute;
+  background:transparent;
+  border:none;
+  cursor:pointer;
 }
 
-/* LOCALIZAÇÃO */
-
+/* LOCALIZAÇÃO (hotspot relativo ao container do convite) */
 #maps{
-left:13%;
-top:61%;
-width:74%;
-height:7%;
+  left:13%;
+  top:61%;
+  width:74%;
+  height:7%;
 }
 
-/* WHATSAPP */
-
+/* WHATSAPP (hotspot relativo ao container do convite) */
 #whats{
-left:13%;
-top:70%;
-width:74%;
-height:7%;
+  left:13%;
+  top:70%;
+  width:74%;
+  height:7%;
 }
+
+/* DEBUG: visualizar áreas durante ajuste (remova depois) */
+/* #maps { outline: 1px dashed rgba(212,175,55,.6); } */
+/* #whats { outline: 1px dashed rgba(0,255,0,.4); } */
 
 @media (max-width:600px){
 
-#maps{
-left:12%;
-top:61%;
-width:76%;
-height:7%;
-}
+  .convite-container{
+    width:95vw;
+  }
 
-#whats{
-left:12%;
-top:70%;
-width:76%;
-height:7%;
-}
+  #maps{
+    left:12%;
+    top:61%;
+    width:76%;
+    height:7%;
+  }
+
+  #whats{
+    left:12%;
+    top:70%;
+    width:76%;
+    height:7%;
+  }
 
 }
 
@@ -128,29 +148,24 @@ height:7%;
 
 <div id="videoPage" class="page">
 
-<video id="video" autoplay muted playsinline controls preload="auto">
+  <video id="video" autoplay muted playsinline controls preload="auto">
+    <source src="./abertura.mp4" type="video/mp4">
+    Seu navegador não suporta o elemento de vídeo.
+  </video>
 
-<source src="./abertura.mp4" type="video/mp4">
-
-Seu navegador não suporta o elemento de vídeo.
-
-</video>
-
-<button id="entrar">
-
-✨ Entrar no Convite ✨
-
-</button>
+  <button id="entrar">
+    ✨ Entrar no Convite ✨
+  </button>
 
 </div>
 
 <div id="invitePage" class="page">
 
-<img src="convite.png" id="convite">
-
-<button id="maps" class="link"></button>
-
-<button id="whats" class="link"></button>
+  <div class="convite-container">
+    <img src="convite.png" id="convite" alt="Convite">
+    <button id="maps" class="link" aria-label="Ver no Maps"></button>
+    <button id="whats" class="link" aria-label="Confirmar pelo WhatsApp"></button>
+  </div>
 
 </div>
 <script>
@@ -161,37 +176,37 @@ const videoPage = document.getElementById("videoPage");
 const invitePage = document.getElementById("invitePage");
 
 video.addEventListener("ended", () => {
-    entrar.style.display = "block";
+  entrar.style.display = "block";
 });
 
 video.addEventListener('error', (e) => {
-    console.error('Erro ao carregar o vídeo:', e);
-    entrar.style.display = 'block';
+  console.error('Erro ao carregar o vídeo:', e);
+  entrar.style.display = 'block';
 });
 
 entrar.addEventListener("click", () => {
-    videoPage.style.display = "none";
-    invitePage.style.display = "flex";
+  videoPage.style.display = "none";
+  invitePage.style.display = "flex";
 });
 
 document.getElementById("maps").addEventListener("click", () => {
-    window.open(
-        "https://maps.app.goo.gl/8GkvK4L5eWAwVaCf8",
-        "_blank"
-    );
+  window.open(
+    "https://maps.app.goo.gl/8GkvK4L5eWAwVaCf8",
+    "_blank"
+  );
 });
 
 document.getElementById("whats").addEventListener("click", () => {
-    window.open(
-        "https://wa.me/5547992299587?text=Gostaria%20de%20confirmar%20presen%C3%A7a%20nos%2015%20anos%20da%20Kemy%20%E2%9C%A8",
-        "_blank"
-    );
+  window.open(
+    "https://wa.me/5547992299587?text=Gostaria%20de%20confirmar%20presen%C3%A7a%20nos%2015%20anos%20da%20Kemy%20%E2%9C%A8",
+    "_blank"
+  );
 });
 
 // Tenta dar play e, se for bloqueado, mostra o botão entrar para avançar manualmente
 video.play().catch((err) => {
-    console.warn('Autoplay bloqueado ou erro ao reproduzir:', err);
-    entrar.style.display = "block";
+  console.warn('Autoplay bloqueado ou erro ao reproduzir:', err);
+  entrar.style.display = "block";
 });
 
 </script>
