@@ -93,29 +93,6 @@ video{
   object-fit:contain;
 }
 
-#entrar{
-  position:absolute;
-  left:50%;
-  bottom:20px;
-  transform:translateX(-50%);
-  padding:16px 36px;
-  border:none;
-  border-radius:50px;
-  background:#d4af37;
-  color:#fff;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
-  display:none;
-  box-shadow:0 0 20px rgba(0,0,0,.4);
-  transition:.3s;
-  white-space:nowrap;
-}
-
-#entrar:hover{
-  transform:translateX(-50%) scale(1.05);
-}
-
 .link{
   position:absolute;
   background:transparent;
@@ -176,10 +153,6 @@ video{
     Seu navegador não suporta o elemento de vídeo.
   </video>
 
-  <button id="entrar">
-    ✨ Entrar no Convite ✨
-  </button>
-
 </div>
 
 <div id="invitePage" class="page">
@@ -195,20 +168,16 @@ video{
 <script>
 
 const video = document.getElementById("video");
-const entrar = document.getElementById("entrar");
 const videoPage = document.getElementById("videoPage");
 const invitePage = document.getElementById("invitePage");
 
 video.addEventListener("ended", () => {
-  entrar.style.display = "block";
+  videoPage.style.display = "none";
+  invitePage.style.display = "flex";
 });
 
 video.addEventListener('error', (e) => {
   console.error('Erro ao carregar o vídeo:', e);
-  entrar.style.display = 'block';
-});
-
-entrar.addEventListener("click", () => {
   videoPage.style.display = "none";
   invitePage.style.display = "flex";
 });
@@ -227,10 +196,11 @@ document.getElementById("whats").addEventListener("click", () => {
   );
 });
 
-// Tenta dar play e, se for bloqueado, mostra o botão entrar para avançar manualmente
+// Tenta dar play e, se for bloqueado, avança para o convite
 video.play().catch((err) => {
   console.warn('Autoplay bloqueado ou erro ao reproduzir:', err);
-  entrar.style.display = "block";
+  videoPage.style.display = "none";
+  invitePage.style.display = "flex";
 });
 
 </script>
