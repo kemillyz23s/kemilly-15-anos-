@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15 Anos da Kemy</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+html,body{
+width:100%;
+height:100%;
+background:#000;
+overflow:hidden;
+}
+
+.page{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+}
+
+#videoPage{
+display:flex;
+justify-content:center;
+align-items:center;
+background:#000;
+}
+
+#invitePage{
+display:none;
+justify-content:center;
+align-items:center;
+background:#000;
+}
+
+video{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+#convite{
+width:100%;
+height:100%;
+object-fit:contain;
+}
+
+#entrar{
+position:absolute;
+left:50%;
+bottom:40px;
+transform:translateX(-50%);
+padding:16px 36px;
+border:none;
+border-radius:50px;
+background:#d4af37;
+color:#fff;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+display:none;
+box-shadow:0 0 20px rgba(0,0,0,.4);
+transition:.3s;
+}
+
+#entrar:hover{
+transform:translateX(-50%) scale(1.05);
+}
+
+.link{
+position:absolute;
+background:transparent;
+border:none;
+cursor:pointer;
+}
+
+/* LOCALIZAÇÃO */
+
+#maps{
+left:13%;
+top:61%;
+width:74%;
+height:7%;
+}
+
+/* WHATSAPP */
+
+#whats{
+left:13%;
+top:70%;
+width:74%;
+height:7%;
+}
+
+@media (max-width:600px){
+
+#maps{
+left:12%;
+top:61%;
+width:76%;
+height:7%;
+}
+
+#whats{
+left:12%;
+top:70%;
+width:76%;
+height:7%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="videoPage" class="page">
+
+<video id="video" autoplay muted playsinline controls preload="auto">
+
+<source src="./abertura.mp4" type="video/mp4">
+
+Seu navegador não suporta o elemento de vídeo.
+
+</video>
+
+<button id="entrar">
+
+✨ Entrar no Convite ✨
+
+</button>
+
+</div>
+
+<div id="invitePage" class="page">
+
+<img src="convite.png" id="convite">
+
+<button id="maps" class="link"></button>
+
+<button id="whats" class="link"></button>
+
+</div>
+<script>
+
+const video = document.getElementById("video");
+const entrar = document.getElementById("entrar");
+const videoPage = document.getElementById("videoPage");
+const invitePage = document.getElementById("invitePage");
+
+video.addEventListener("ended", () => {
+    entrar.style.display = "block";
+});
+
+video.addEventListener('error', (e) => {
+    console.error('Erro ao carregar o vídeo:', e);
+    entrar.style.display = 'block';
+});
+
+entrar.addEventListener("click", () => {
+    videoPage.style.display = "none";
+    invitePage.style.display = "flex";
+});
+
+document.getElementById("maps").addEventListener("click", () => {
+    window.open(
+        "https://maps.app.goo.gl/8GkvK4L5eWAwVaCf8",
+        "_blank"
+    );
+});
+
+document.getElementById("whats").addEventListener("click", () => {
+    window.open(
+        "https://wa.me/5547992299587?text=Gostaria%20de%20confirmar%20presen%C3%A7a%20nos%2015%20anos%20da%20Kemy%20%E2%9C%A8",
+        "_blank"
+    );
+});
+
+// Tenta dar play e, se for bloqueado, mostra o botão entrar para avançar manualmente
+video.play().catch((err) => {
+    console.warn('Autoplay bloqueado ou erro ao reproduzir:', err);
+    entrar.style.display = "block";
+});
+
+</script>
+
+</body>
+</html>
