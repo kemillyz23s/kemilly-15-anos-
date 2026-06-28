@@ -126,7 +126,7 @@ video{
 /* LOCALIZAÇÃO (hotspot relativo ao container do convite) */
 #maps{
   left:13%;
-  top:48%;
+  top:58%;
   width:74%;
   height:3.5%;
 }
@@ -134,14 +134,49 @@ video{
 /* WHATSAPP (hotspot relativo ao container do convite) */
 #whats{
   left:13%;
-  top:54%;
+  top:64%;
   width:74%;
   height:3.5%;
 }
 
-/* DEBUG: visualizar áreas durante ajuste (remova depois) */
-/* #maps { outline: 1px dashed rgba(212,175,55,.6); } */
-/* #whats { outline: 1px dashed rgba(0,255,0,.4); } */
+/* DEBUG: visualizar áreas durante ajuste (descomente para ver) */
+.debug-mode #maps { outline: 2px dashed rgba(212,175,55,.8); }
+.debug-mode #whats { outline: 2px dashed rgba(0,255,0,.8); }
+
+/* Painel de Debug */
+#debugPanel{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:rgba(0,0,0,0.9);
+  color:#d4af37;
+  padding:15px;
+  border:2px solid #d4af37;
+  border-radius:8px;
+  font-size:12px;
+  z-index:100;
+  display:none;
+  font-family: monospace;
+}
+
+#debugPanel p{
+  margin:5px 0;
+}
+
+#debugToggle{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#d4af37;
+  color:#000;
+  padding:10px 15px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  z-index:100;
+  font-weight:bold;
+  font-size:12px;
+}
 
 @media (max-width:600px){
 
@@ -151,14 +186,14 @@ video{
 
   #maps{
     left:12%;
-    top:48%;
+    top:58%;
     width:76%;
     height:3.5%;
   }
 
   #whats{
     left:12%;
-    top:54%;
+    top:64%;
     width:76%;
     height:3.5%;
   }
@@ -195,12 +230,41 @@ video{
   </div>
 
 </div>
+
+<button id="debugToggle">🐛 DEBUG</button>
+<div id="debugPanel">
+  <p><strong>MAPA:</strong> top: <span id="mapsTop">58%</span></p>
+  <p><strong>WHATS:</strong> top: <span id="whatsTop">64%</span></p>
+  <p id="clickInfo"></p>
+</div>
+
 <script>
 
 const video = document.getElementById("video");
 const entrar = document.getElementById("entrar");
 const videoPage = document.getElementById("videoPage");
 const invitePage = document.getElementById("invitePage");
+const debugToggle = document.getElementById("debugToggle");
+const debugPanel = document.getElementById("debugPanel");
+const container = document.querySelector(".convite-container");
+
+// MODO DEBUG
+debugToggle.addEventListener("click", () => {
+  container.classList.toggle("debug-mode");
+  debugPanel.style.display = debugPanel.style.display === "block" ? "none" : "block";
+});
+
+// Detectar cliques para ajustar posição
+document.addEventListener("click", (e) => {
+  if(debugPanel.style.display === "block" && e.target.id !== "debugToggle"){
+    const rect = container.getBoundingClientRect();
+    const y = e.clientY - rect.top;
+    const percentY = (y / rect.height) * 100;
+    
+    document.getElementById("clickInfo").innerHTML = 
+      `Clicou em: <strong>${percentY.toFixed(1)}%</strong>`;
+  }
+});
 
 video.addEventListener("ended", () => {
   entrar.style.display = "block";
